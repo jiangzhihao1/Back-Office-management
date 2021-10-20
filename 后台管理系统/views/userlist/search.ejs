@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+    <style>
+        header {
+            vertical-align: middle;
+            background-color: cornflowerblue;
+        }
+        
+        header .logo {
+            color: white;
+        }
+        
+        .main {
+            padding-top: 50px;
+        }
+        
+        .main .panel-group>.no-marTop {
+            margin-top: 0;
+        }
+        
+        .main .no-padding {
+            padding: 0;
+        }
+        
+        .table-list {
+            text-align: center;
+        }
+        
+        .main .table-list td {
+            vertical-align: middle;
+        }
+        
+        h2 {
+            margin-top: 10px;
+        }
+        
+        .sousuo,
+        .quanbu {
+            padding: 2px 12px;
+        }
+        
+        .img {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <h2 class="col-xs-10 col-sm-6 col-md-6  text-left logo">
+                    好谷29期后台管理系统
+                </h2>
+                <h2 class="text-right">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#myModal">退出系统</button>
+                </h2>
+                <!-- Modal 确定是否退出系统-->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">退出页面</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>是否退出系统</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary sign-out">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default no-marTop user-management">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">用户管理
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <ul class="list-group panel-body no-padding">
+                                    <li class="list-group-item" data-user="userlist">用户列表</li>
+                                    <li class="list-group-item" data-user="useadd">用户添加</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel panel-default  no-marTop">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">产品管理
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <ul class="list-group panel-body no-padding">
+                                    <li class="list-group-item">产品列表</li>
+                                    <li class="list-group-item">产品添加</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-9 xianshi">
+                    <div class="row">
+                        <ol class="breadcrumb">
+                            <li><a href="#">当前位置</a></li>
+                            <li><a href="#">用户管理</a></li>
+                            <li class="active">用户列表</li>
+                        </ol>
+                    </div>
+                    <div class="row">
+                        <form action="/api/search" method="get" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <label for="username">员工姓名:</label>
+                                    <input type="text" id="username" name="username" placeholder="请输入员工姓名进行查找">
+                                    <button type="submit" class="btn btn-success sousuo">搜索</button>
+                                    <button type="button" class="btn btn-success quanbu">显示全部数据</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row" id="userlist">
+                        <table class="table table-striped table-responsive table-list table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>序号</td>
+                                    <!-- <td>ID</td> -->
+                                    <td>头像</td>
+                                    <td>员工姓名</td>
+                                    <td>性别</td>
+                                    <td>年龄</td>
+                                    <td>身份证号</td>
+                                    <td>员工职位</td>
+                                    <td>应得工资</td>
+                                    <td>实发工资</td>
+                                    <td>编辑</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%for(let i=0;i<yonghu.length;i++){%>
+                                    <tr>
+                                        <td>
+                                            <%=i+1%>
+                                        </td>
+                                        <td>
+                                            <img src="<%=yonghu[i].pic?yonghu[i].pic:'images/2.png'%>" alt="" class="img">
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].username%>
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].sex%>
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].age%>
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].identity%>
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].zhiwei%>
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].gongzi%>
+                                        </td>
+                                        <td>
+                                            <%=yonghu[i].shifa%>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning no-padding"><a href="/api/revise?id=<%=yonghu[i].id%>">修改</a></button>
+                                            <button type="button" class="btn btn-danger no-padding remove" data-toggle="modal" data-target="#myModal2<%=i%>">删除</button>
+                                            <!-- Modal 确定是否退出系统-->
+                                            <div class="modal fade" id="myModal2<%=i%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">退出页面</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>是否删除该条数据</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="/api/doremove" method="post">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                                <a type="button" class="btn btn-primary " href="/api/doremove?id=<%=yonghu[i].id%>">确定</a>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <nav aria-label="Page navigation row">
+                        <div class="col-md-offset-2 col-sm-12 col-md-8">
+                            <ul class="pagination">
+                                <li><a href="javascript:;">总共有<%=lengths%>条数据</a></li>
+                                <li class="<%=page==1?'disabled':''%>"><a href="/api/search?username=<%=username%>&page=1">首页</a></li>
+                                <li class="<%=page==1?'disabled':''%>">
+                                    <a href="/api/search?username=<%=username%>&page=<%=page-1%>" aria-label="Previous">
+                                        <span aria-hidden="true">上一页</span>
+                                    </a>
+                                </li>
+                                <% for(let i=1;i<=zongyeshu;i++){%>
+                                    <li class="<%=page==i?'active':''%>">
+                                        <a href="/api/search?username=<%=username%>&page=<%=i%>">
+                                            <%=i%>
+                                        </a>
+                                    </li>
+                                    <%}%>
+                                        <li>
+                                            <a href="/api/search?username=<%=username%>&page=<%=page=page<zongyeshu?page+1:zongyeshu%>" aria-label="Next">
+                                                <span aria-hidden="true">下一页</span>
+                                            </a>
+                                        </li>
+                                        <li><a href="/api/search?username=<%=username%>&page=<%=zongyeshu%>">尾页</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        $(".sign-out").click(function() {
+            location.href = "/api/login";
+        });
+        $(".user-management li").click(function() {
+            $(".breadcrumb .active").text($(this).text());
+            location.href = `/api/${$(this).attr("data-user")}`;
+        });
+        $(".quanbu").click(function() {
+            location.href = "/api/userlist";
+        })
+    </script>
+</body>
+
+</html>
